@@ -26,7 +26,8 @@ class HomeFragment : Fragment() {
         val arrayAdapter = ArrayAdapter(
             requireContext(),
             R.layout.drop_down_items,
-            hashAlgorithms)
+            hashAlgorithms
+        )
         binding.autoCompleteTextView.setAdapter(arrayAdapter)
 
         // Animations
@@ -46,6 +47,8 @@ class HomeFragment : Fragment() {
     }
 
     private suspend fun applyAnimations() {
+
+        binding.generateBtn.isClickable = false
 
         val DURATION = 400L
 
