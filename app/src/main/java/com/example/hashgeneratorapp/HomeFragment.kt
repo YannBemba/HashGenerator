@@ -15,6 +15,17 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    override fun onResume() {
+        super.onResume()
+        val hashAlgorithms = resources.getStringArray(R.array.hash_algorithms)
+        val arrayAdapter = ArrayAdapter(
+                requireContext(),
+                R.layout.drop_down_items,
+                hashAlgorithms
+        )
+        binding.autoCompleteTextView.setAdapter(arrayAdapter)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View {
 
@@ -22,13 +33,6 @@ class HomeFragment : Fragment() {
 
         setHasOptionsMenu(true) // Ajouter le menu
 
-        val hashAlgorithms = resources.getStringArray(R.array.hash_algorithms)
-        val arrayAdapter = ArrayAdapter(
-            requireContext(),
-            R.layout.drop_down_items,
-            hashAlgorithms
-        )
-        binding.autoCompleteTextView.setAdapter(arrayAdapter)
 
         // Animations
 
