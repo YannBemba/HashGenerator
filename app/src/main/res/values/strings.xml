@@ -9,6 +9,7 @@
     <string name="supprimer">Supprimer</string>
     <string name="copy">Copy</string>
     <string name="copi">Copié</string>
+    <string name="splash_screen">Splash Screen</string>
 
     <string-array name="hash_algorithms">
         <item>SHA-256</item>
