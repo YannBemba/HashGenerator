@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.hashgeneratorapp.databinding.FragmentHomeBinding
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -14,6 +16,8 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onResume() {
         super.onResume()
@@ -26,21 +30,18 @@ class HomeFragment : Fragment() {
         binding.autoCompleteTextView.setAdapter(arrayAdapter)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?): View {
 
         _binding = FragmentHomeBinding.inflate(layoutInflater)
 
         setHasOptionsMenu(true) // Ajouter le menu
 
-
         // Animations
-
         binding.generateBtn.setOnClickListener {
-            lifecycleScope.launch {
-                applyAnimations()
-                navigateToSuccess()
-            }
+            onGenerateClick()
         }
 
         return binding.root
@@ -48,6 +49,34 @@ class HomeFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.home_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.clear_menu){
+            binding.plainText.text.clear()
+            showSnackbar("Cleared")
+            return true
+        }
+        return true
+    }
+
+    private fun onGenerateClick() {
+        if(binding.plainText.text.isEmpty()){
+            showSnackbar("Veuillez remplir le champ")
+        } else {
+            lifecycleScope.launch {
+                applyAnimations()
+                getHashData()
+                navigateToSuccess()
+            }
+        }
+    }
+
+    private fun getHashData(): String {
+        val algorithms = binding.autoCompleteTextView.text.toString()
+        val plainText = binding.plainText.text.toString()
+
+        return homeViewModel.getHash(algorithms, plainText)
     }
 
     private suspend fun applyAnimations() {
@@ -91,6 +120,16 @@ class HomeFragment : Fragment() {
 
         delay(1500L)
 
+    }
+
+    private fun showSnackbar(message: String){
+        val snackBar = Snackbar.make(
+              binding.rootLayout,
+              message,
+              Snackbar.LENGTH_LONG
+        )
+        snackBar.setAction("OK"){}
+        snackBar.show()
     }
 
     private fun navigateToSuccess(){
