@@ -11,5 +11,6 @@
     <color name="dark_less">#2D2D2D</color>
     <color name="dark_blue">#00081F</color>
     <color name="blue">#1B2B56</color>
+    <color name="light_blue">#789CFB</color>
     <color name="yellow">#FFAB00</color>
 </resources>

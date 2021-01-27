@@ -66,8 +66,7 @@ class HomeFragment : Fragment() {
         } else {
             lifecycleScope.launch {
                 applyAnimations()
-                getHashData()
-                navigateToSuccess()
+                navigateToSuccess(getHashData())
             }
         }
     }
@@ -89,7 +88,7 @@ class HomeFragment : Fragment() {
             .alpha(0f)
             .duration = DURATION
 
-        binding.view.animate()
+        binding.messageBg.animate()
             .alpha(0f)
             .duration = DURATION
 
@@ -132,8 +131,9 @@ class HomeFragment : Fragment() {
         snackBar.show()
     }
 
-    private fun navigateToSuccess(){
-        findNavController().navigate(R.id.action_homeFragment_to_successFragment)
+    private fun navigateToSuccess(hash: String){
+        val directions = HomeFragmentDirections.actionHomeFragmentToSuccessFragment(hash)
+        findNavController().navigate(directions)
     }
 
     override fun onDestroyView() {

@@ -7,6 +7,8 @@
     <string name="le_texte_est_ici">Le texte est ici</string>
     <string name="generer">Générer</string>
     <string name="supprimer">Supprimer</string>
+    <string name="copy">Copy</string>
+    <string name="copi">Copié</string>
 
     <string-array name="hash_algorithms">
         <item>SHA-256</item>
